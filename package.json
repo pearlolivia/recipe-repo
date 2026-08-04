@@ -1,0 +1,18 @@
+{
+  "name": "recipe-repo",
+  "packageManager": "yarn@4.9.1",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "start": "concurrently \"yarn workspace server start\" \"yarn workspace client start\"",
+    "install:all": "concurrently \"yarn workspace server install\" \"yarn workspace client install\"",
+    "install:front": "yarn workspace client install",
+    "install:back": "yarn workspace server install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
