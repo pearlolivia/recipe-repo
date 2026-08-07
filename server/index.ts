@@ -22,6 +22,7 @@ const start = async () => {
         app.get('/test', (req, res) => {
             res.send({ data: 'Hello from server '})
         })
+        
         // Routes
         app.use('/api', mainRouter)
     } catch (error) {

@@ -5,7 +5,7 @@ import Blog from '../models/example.model'
 const router = Router()
 const ROUTES = ENDPOINTS.app
 
-router.get(ROUTES.example, async (req, res) => {
+router.get(ROUTES.example, async (req: Request, res: Response) => {
     try {
         const blogs = await Blog.find()
         if (!blogs) {

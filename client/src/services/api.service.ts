@@ -1,4 +1,5 @@
 export const api = async (endpoint: string, body?: any) => {
+    // get access token from auth provider & add to header
     const method = body ? 'POST' : 'GET'
     const response = await fetch(`${import.meta.env.VITE_API_URL}/${endpoint}`, {
         method,
@@ -26,6 +27,8 @@ export const api = async (endpoint: string, body?: any) => {
         }
         return errRes
     })
+
+    // refresh access token??
 
     return response
 }

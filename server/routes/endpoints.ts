@@ -1,7 +1,11 @@
 const endpoints = {
     app: {
         example: '/example'
-    }
+    },
+    auth: {
+        register: '/register',
+        login: '/login',
+    },
 }
 
 export const ENDPOINTS = JSON.parse(JSON.stringify(endpoints))
