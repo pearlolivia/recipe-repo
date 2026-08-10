@@ -6,6 +6,6 @@ import authRouter from './auth.routes'
 const mainRouter = Router()
 
 mainRouter.use('/app', appRouter)
-mainRouter.user('/auth', authRouter)
+mainRouter.use('/auth', authRouter)
 
 export default mainRouter

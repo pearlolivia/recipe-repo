@@ -24,7 +24,7 @@ const Base = ({ onClick, onClickAsync, isLoading, children, disabled, className,
         <button
             {...props}
             onClick={handleClick}
-            className={`button group ${className} ${disabled && 'opacity-50'}`}
+            className={`py-1 px-3 rounded-md font-medium ${className} ${disabled && 'opacity-50'}`}
         >
             {isLoading ? <Loading size={20} /> : children}
         </button>

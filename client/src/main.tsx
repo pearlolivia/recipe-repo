@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import Loading from '@/components/Molecules/Loading'
 import './index.css'
+import Register from './components/Pages/Auth/Register.tsx'
 
 const App = lazy(() => import('./App.tsx'))
 const LayoutWrapper = lazy(() => import('@/layouts/Wrapper'))
@@ -17,6 +18,9 @@ root.render(
       <BrowserRouter>
       <Suspense fallback={<Loading />}>
           <Routes>
+              {/* Auth */}
+              <Route path='/register' element={<Register />} />
+              
               {/* App */}
                 <Route path='/' element={<LayoutWrapper layout='app' />}>
                   <Route index element={<App />} />

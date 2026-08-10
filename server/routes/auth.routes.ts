@@ -24,7 +24,7 @@ router.post(ROUTES.register, async (req: Request, res: Response) => {
 
         const hashedPass = bcrypt.hash(password, SALT_ROUNDS)
 
-        const newUser = await new User({
+        await new User({
             username,
             password: hashedPass,
             lastLoginAt: new Date()
