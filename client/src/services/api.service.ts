@@ -29,7 +29,7 @@ export const api = async (endpoint: string, body?: any) => {
 
 
         return {
-            staus: res.status,
+            status: res.status,
             message: res.statusText,
             data: body
         }
@@ -78,4 +78,47 @@ export const api_delete = async (endpoint: string) => {
         status: res.status,
         message: res.statusText,
     }
+}
+
+export const api_no_auth = async (endpoint: string, body?: any) => {
+    const method = body ? 'POST' : 'GET'
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/${endpoint}`, {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: body ? JSON.stringify(body) : null
+    })
+    .then(async (res) => {
+        if (res.status === 403) {
+            window.location.assign('/logout')
+            return {
+                status: 403,
+                message: 'Forbidden',
+                error: 'Forbidden',
+            }
+        }
+
+        let body
+        try {
+            body = await res.json()
+        } catch (e) {
+            console.error('API response error: ', e)
+        }
+
+
+        return {
+            status: res.status,
+            message: res.statusText,
+            data: body
+        }
+    })
+    .catch((errRes) => {
+        if (errRes?.status === 401) {
+            window.location.replace('/')
+        }
+        return errRes
+    })
+
+    return response
 }

@@ -26,7 +26,7 @@ const Field = ({
     return (
         <div className="flex flex-col">
             <label className="text-sm text-neutral-800">{label ?? fieldLabel}</label>
-            <input type={type} value={value} onChange={(v) => handleChange(v)} className="ring-1 ring-gray-500 rounded-md my-1 w-1/2 px-1" />
+            <input type={type} value={value} onChange={(v) => handleChange(v)} className="ring-1 ring-gray-500 rounded-md my-1 w-1/2 p-1" />
         </div>
     )
 }

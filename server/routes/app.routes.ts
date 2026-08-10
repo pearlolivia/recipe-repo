@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express'
 import { ENDPOINTS } from './endpoints'
 import Blog from '../models/example.model'
+import BaseRouter from './baseRoute'
+import User from '../models/user.model'
 
 const router = Router()
 const ROUTES = ENDPOINTS.app

@@ -1,10 +1,12 @@
 const endpoints = {
     app: {
-        example: '/example'
+        example: '/example',
+        user: '/user'
     },
     auth: {
         register: '/register',
         login: '/login',
+        check: '/check'
     },
 }
 

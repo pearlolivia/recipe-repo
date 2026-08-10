@@ -7,10 +7,10 @@ import ROUTES from '@/ROUTES'
 function App() {
   const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    api(`${ROUTES.app.example}`)
-    .then((res) => console.log(res.data))
-  }, [])
+  // useEffect(() => {
+  //   api(`${ROUTES.app.example}`)
+  //   .then((res) => console.log(res.data))
+  // }, [])
 
   return (
     <>

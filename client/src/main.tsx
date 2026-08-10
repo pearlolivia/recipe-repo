@@ -5,6 +5,9 @@ import { ToastContainer } from 'react-toastify'
 import Loading from '@/components/Molecules/Loading'
 import './index.css'
 import Register from './components/Pages/Auth/Register.tsx'
+import { AuthWrapper } from './services/wrappers.tsx'
+import { AuthProvider } from './hooks/useAuth.tsx'
+import Logout from './components/Pages/Auth/Logout.tsx'
 
 const App = lazy(() => import('./App.tsx'))
 const LayoutWrapper = lazy(() => import('@/layouts/Wrapper'))
@@ -17,18 +20,23 @@ root.render(
   {/* <ErrorBoundary componentName='Root'> */}
       <BrowserRouter>
       <Suspense fallback={<Loading />}>
-          <Routes>
-              {/* Auth */}
-              <Route path='/register' element={<Register />} />
-              
-              {/* App */}
-                <Route path='/' element={<LayoutWrapper layout='app' />}>
-                  <Route index element={<App />} />
-                </Route>
-              {/* Errors */}
-              <Route path='/*' element={<NotFoundPage />} />
-          </Routes>
-          <ToastContainer position='top-center' autoClose={1000} />
+        <AuthProvider>
+            <Routes>
+                {/* Auth */}
+                <Route path='/register' element={<Register />} />
+                <Route path='/logout' element={<Logout />} />
+
+                {/* App */}
+                <Route element={<AuthWrapper />}>
+                  <Route path='/' element={<LayoutWrapper layout='app' />}>
+                    <Route index element={<App />} />
+                  </Route>
+                  </Route>
+                {/* Errors */}
+                <Route path='/*' element={<NotFoundPage />} />
+            </Routes>
+            <ToastContainer position='top-center' autoClose={1000} />
+          </AuthProvider>
         </Suspense>
       </BrowserRouter>
   {/* </ErrorBoundary> */}

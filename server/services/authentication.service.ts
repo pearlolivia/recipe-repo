@@ -43,7 +43,7 @@ export async function encodeAccessToken(user: IUser, now: Date): Promise<{ error
 }
 
 // decode access token
-export async function decodeAccessToken(token: string): Promise<{ error?: string; payload: AccessTokenPayload }>{
+export async function decodeAccessToken(token: string): Promise<any>{
     return new Promise((resolve, reject) => {
         jwt.verify(token, JWT_SECRET, {}, (error, decoded) => {
             if (error || !decoded) {
@@ -51,27 +51,26 @@ export async function decodeAccessToken(token: string): Promise<{ error?: string
                 return
             }
             const payload = decoded as AccessTokenPayload
-            resolve({ payload })
+            resolve({ error: null, payload })
         })
     })
 }
 
 // create access token for logged in user
-export async function createUserToken(user: IUser) {
+export async function createUserToken(user: IUser): Promise<{token?: {}; error?: string }> {
     const now = new Date()
     const { error, token } = await encodeAccessToken(user, now)
     if (error || !token) {
-        return [null, new Error('Authentication failed, please try again')]
+        return { error: error ?? 'Authentication failed, please try again'}
     }
 
-    return [
-        {
+    return {
+        token: {
             accessToken: token,
             tokenType: 'Bearer',
             expiresAt: now.valueOf() + ACCESS_TOKEN_LIFETIME,
         },
-        null,
-    ]
+    }
 }
 
 // verify token for user
