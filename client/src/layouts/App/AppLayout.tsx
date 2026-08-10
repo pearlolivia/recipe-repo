@@ -21,7 +21,7 @@ const AppLayout = ({children, mainClass}: {children: ReactNode; mainClass?: stri
             links={APP_LINKS}
         />
         {/* Main Child */}
-        <main className={`flex flex-col items-center flex-1 w-full justify-self-center ${mainClass ?? ''}`}>
+        <main className={`flex flex-col items-center flex-1 max-w-5xl h-screen justify-self-center ${mainClass ?? ''}`}>
             {/* <ErrorBoundary componentName='Column Layout - Main'> */}
                 {children}
             {/* </ErrorBoundary> */}

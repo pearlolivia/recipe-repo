@@ -5,18 +5,18 @@ import ROUTES from "@/ROUTES"
 import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 
-const Register = () => {
+const Login = () => {
     const navigate = useNavigate()
     const { getUser } = useAuth()
 
     return (
         <div className='m-auto space-y-6 flex-col flex'>
             <div className='space-y-4'>
-                <h1 className='font-semibold text-4xl'>Register</h1>
-                <p>Already registered? <span className='font-medium text-brand cursor-pointer hover:underline' onClick={() => navigate('/login')}>Sign in</span></p>
+                <h1 className='font-semibold text-4xl'>Sign In</h1>
+                <p>No account? <span className='font-medium text-brand cursor-pointer hover:underline' onClick={() => navigate('/register')}>Register here</span></p>
             </div>
             <Form<IUser>
-                endpoint={ROUTES.auth.register}
+                endpoint={ROUTES.auth.login}
                 id='new'
                 options={{ noAuth: true }}
                 postSubmit={async (response) => {
@@ -34,11 +34,10 @@ const Register = () => {
                     navigate('/')
                 }}
                 className='m-auto'
-                submitText='Register'
+                submitText='Sign In'
             >
                 {(f) => (
                     <>
-                        <Field {...f('firstName')} type='text' />
                         <Field {...f('username')} type='text' />
                         <Field {...f('password')} type='text' />
                     </>
@@ -48,4 +47,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default Login

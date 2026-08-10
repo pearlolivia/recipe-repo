@@ -9,4 +9,4 @@ export type Link = {
     iconFilled?: IconComponent
 }
 
-export type Layout = 'app' | 'admin'
+export type Layout = 'app' | 'auth' 

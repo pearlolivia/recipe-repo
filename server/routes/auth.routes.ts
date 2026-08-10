@@ -32,16 +32,11 @@ router.post(ROUTES.register, async (req: Request, res: Response) => {
             lastLoginAt: new Date()
         }).save()
 
-        console.log('newUser: ', newUser)
-
         // create access token
         const { token, error } = await createUserToken(newUser)
-        console.log('token: ', token)
         if (!!error || !token) {
             return res.status(500).json({ error: error ?? 'Failed to generate access token.' })
         }
-
-        // const hashedToken = await bcrypt.hash(JSON.stringify(token), SALT_ROUNDS)
 
         return res.status(201).json({
             message: 'Registration successful!',
@@ -54,6 +49,44 @@ router.post(ROUTES.register, async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error)
         return res.status(500).json({ error: `Error creating your account: ${error ?? 'Something went wrong'}`})
+    }
+})
+
+router.post(ROUTES.login, async (req: Request, res: Response) => {
+    try {
+        const { username, password } = req.body
+
+        const existingUser = await User.findOne({username})
+        if (!existingUser) {
+            return res.status(400).json({ error: 'No account exists with this username. Please register or try again.' })
+        }
+
+        const passwordMatch = await bcrypt.compare(password, existingUser.password)
+
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Incorrect password' })
+        }
+
+        // create access token
+        const { token, error } = await createUserToken(existingUser)
+        if (!!error || !token) {
+            return res.status(500).json({ error: error ?? 'Failed to generate access token.' })
+        }
+
+        existingUser.lastLoginAt = new Date()
+        await existingUser.save()
+
+        return res.status(201).json({
+            message: 'Login successful!',
+            accessToken: token,
+            user: {
+                ...existingUser,
+                password: undefined // do not share password in localstorage
+            }
+        })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ error: `Error logging in: ${error ?? 'Something went wrong'}`})
     }
 })
 

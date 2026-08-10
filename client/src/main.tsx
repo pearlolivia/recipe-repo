@@ -8,6 +8,7 @@ import Register from './components/Pages/Auth/Register.tsx'
 import { AuthWrapper } from './services/wrappers.tsx'
 import { AuthProvider } from './hooks/useAuth.tsx'
 import Logout from './components/Pages/Auth/Logout.tsx'
+import Login from './components/Pages/Auth/Login.tsx'
 
 const App = lazy(() => import('./App.tsx'))
 const LayoutWrapper = lazy(() => import('@/layouts/Wrapper'))
@@ -23,8 +24,11 @@ root.render(
         <AuthProvider>
             <Routes>
                 {/* Auth */}
-                <Route path='/register' element={<Register />} />
-                <Route path='/logout' element={<Logout />} />
+                <Route path='/' element={<LayoutWrapper layout='auth' />}>
+                  <Route path='/register' element={<Register />} />
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/logout' element={<Logout />} />
+                </Route>
 
                 {/* App */}
                 <Route element={<AuthWrapper />}>

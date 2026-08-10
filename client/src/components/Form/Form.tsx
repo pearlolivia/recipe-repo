@@ -8,9 +8,11 @@ type FormProps<FormValuesType> = {
     children: (formControl: any, formData: {}) => React.ReactNode
     postSubmit?: (response: { data: any }) => void
     options?: { noAuth?: boolean }
+    className?: string
+    submitText?: string
 }
 
-function Form<FormValuesType>({ endpoint, id, children, postSubmit, options }: FormProps<FormValuesType>) {
+function Form<FormValuesType>({ endpoint, id, children, postSubmit, options, className, submitText }: FormProps<FormValuesType>) {
     const [formValues, setFormValues] = useState<{ [key: string]: any }>({})
     const [submissionStatus, setSubmissionStatus] = useState<'success' | 'invalid' | 'error' | null>(null)
 
@@ -39,9 +41,9 @@ function Form<FormValuesType>({ endpoint, id, children, postSubmit, options }: F
 
     // handle update of form values via various input fields
     return (
-        <div className="bg-white p-5 rounded-xl border">
+        <div className={`bg-white p-5 rounded-xl border flex flex-col space-y-4 ${className}`}>
             {children(formControl, { formValues, setFormValues, submit: (values: FormValuesType) => handleSubmit(values)})}
-            <Button onClickAsync={async() => { await handleSubmit() }}>Submit</Button>
+            <Button className="ml-auto" onClickAsync={async() => { await handleSubmit() }}>{submitText ?? 'Submit'}</Button>
         </div>
     )
 }
