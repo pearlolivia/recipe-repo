@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express'
 import { ENDPOINTS } from './endpoints'
 import Blog from '../models/example.model'
 import BaseRouter from './baseRoute'
-import User from '../models/user.model'
+import Recipe from '../models/recipe.model'
 
 const router = Router()
 const ROUTES = ENDPOINTS.app
@@ -18,6 +18,12 @@ router.get(ROUTES.example, async (req: Request, res: Response) => {
     } catch (e) {
         res.status(500).json({ error: e })
     }
+})
+
+BaseRouter(router, {
+    route: ROUTES.recipe,
+    model: Recipe,
+    populate: ['categories'],
 })
 
 export default router

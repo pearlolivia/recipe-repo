@@ -81,6 +81,10 @@ const BaseRouter = (router: Router, config: RouterConfig) => {
     if (!excludedRoutes?.includes('delete')) {
         router.delete(`${route}/:id`, async (req: Request, res: Response) => {
             try {
+                const loggedInUser = res.locals.loggedInUser
+                if (!loggedInUser || !loggedInUser?.isAdmin) {
+                    return res.status(401).json({ error: 'You are not authorized to delete data.' })
+                }
                 const item = await model.findById(req.params.id)
                 if (!item) {
                     return res.status(404).json({ error: 'Item not found' })

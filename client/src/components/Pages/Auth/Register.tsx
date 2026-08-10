@@ -10,10 +10,10 @@ const Register = () => {
     const { getUser } = useAuth()
 
     return (
-        <div className='m-auto space-y-6 flex-col flex'>
+        <div className='m-auto space-y-6 flex-col flex w-1/2'>
             <div className='space-y-4'>
                 <h1 className='font-semibold text-4xl'>Register</h1>
-                <p>Already registered? <span className='font-medium text-brand cursor-pointer hover:underline' onClick={() => navigate('/login')}>Sign in</span></p>
+                <p>Already registered? <span className='font-medium text-wine cursor-pointer hover:underline' onClick={() => navigate('/login')}>Sign in</span></p>
             </div>
             <Form<IUser>
                 endpoint={ROUTES.auth.register}
@@ -33,7 +33,6 @@ const Register = () => {
                     await getUser()
                     navigate('/')
                 }}
-                className='m-auto'
                 submitText='Register'
             >
                 {(f) => (

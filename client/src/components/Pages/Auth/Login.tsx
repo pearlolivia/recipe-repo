@@ -10,10 +10,10 @@ const Login = () => {
     const { getUser } = useAuth()
 
     return (
-        <div className='m-auto space-y-6 flex-col flex'>
+        <div className='m-auto space-y-6 flex-col flex w-1/2'>
             <div className='space-y-4'>
                 <h1 className='font-semibold text-4xl'>Sign In</h1>
-                <p>No account? <span className='font-medium text-brand cursor-pointer hover:underline' onClick={() => navigate('/register')}>Register here</span></p>
+                <p>No account? <span className='font-medium text-wine cursor-pointer hover:underline' onClick={() => navigate('/register')}>Register here</span></p>
             </div>
             <Form<IUser>
                 endpoint={ROUTES.auth.login}
@@ -33,7 +33,6 @@ const Login = () => {
                     await getUser()
                     navigate('/')
                 }}
-                className='m-auto'
                 submitText='Sign In'
             >
                 {(f) => (

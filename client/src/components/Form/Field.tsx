@@ -6,17 +6,19 @@ const Field = ({
     field,
     formValues,
     setFormValues,
+    onChange,
     type,
     label
 }: {
     field: string
     formValues: { [key: string]: any }
-    setFormValues: (v: { [key: string]: any }) => void
+    setFormValues?: (v: { [key: string]: any }) => void
+    onChange?: (v: string) => void
     //
     type: string
     label?: string
 }) => {
-    const { value, handleChange } = useField({ field, formValues, setFormValues })
+    const { value, handleChange } = useField({ field, formValues, setFormValues, onChange })
 
     const fieldLabel = useMemo(() => {
         const splitName = field.replace(/([A-Z])/g, ' $1').split(" ").join(' ')

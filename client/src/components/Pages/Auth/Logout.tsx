@@ -14,7 +14,7 @@ const Logout = () => {
     async function logout() {
         clearUser()
         localStorage.removeItem('token')
-        navigate('/register')
+        navigate('/login')
     }
     return (
         <div className="flex flex-col gap-2 max-w-4xl">

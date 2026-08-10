@@ -6,6 +6,7 @@ export interface IUser {
     password: string // hashed
     firstName: string
     lastLoginAt: Date
+    isAdmin?: boolean
     createdAt: Date
     updatedAt: Date
 }
@@ -15,6 +16,7 @@ const userSchema = new Schema<IUser>({
     password: { type: String, required: true },
     firstName: { type: String, required: true },
     lastLoginAt: { type: Date },
+    isAdmin: { type: Boolean, default: false },
 }, {
     timestamps: true
 })

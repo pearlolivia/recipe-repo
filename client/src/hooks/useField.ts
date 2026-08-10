@@ -1,12 +1,17 @@
-export function useField({ field, formValues, setFormValues }: {
+export function useField({ field, formValues, setFormValues, onChange }: {
     field: string
     formValues: { [key: string]: any }
-    setFormValues: (v: { [key: string]: any }) => void
+    setFormValues?: (v: { [key: string]: any }) => void
+    onChange?: (v: string) => void
 }) {
     const value = formValues?.[field]
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormValues({
+        if (!!onChange){
+            onChange(e.target.value)
+            return
+        }
+        setFormValues?.({
             ...formValues,
             [field]: e.target.value
         })

@@ -1,17 +1,15 @@
 import { model, Schema } from 'mongoose'
-import { IIngredient } from './ingredient.model'
 import { ICategory } from './category.model'
-import { IStep } from './step.model'
-
-type IngredientQuantity = IIngredient & { quantity: string }
 
 export interface IRecipe {
     _id: string
-    ingredients: IngredientQuantity[]
     categories: ICategory[]
-    steps: IStep[]
     caloriesPerPerson: number
     servings: number
+    time: { // minutes
+        prep: number
+        cook: number
+    }
     notes?: string
     createdAt: Date
     updatedAt: Date
@@ -19,11 +17,13 @@ export interface IRecipe {
 
 const recipeSchema = new Schema<IRecipe>(
     {
-        ingredients: [{ type: Schema.Types.ObjectId, ref: 'Ingredient', required: true }],
-        categories: [{ type: Schema.Types.ObjectId, ref: 'Category', required: true }],
-        steps: [{ type: Schema.Types.ObjectId, ref: 'Step', required: true }],
+        categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
         caloriesPerPerson: { type: Number, required: true },
         servings: { type: Number, required: true },
+        time: { type: {
+            prep: { type: Number, required: true },
+            cook: { type: Number, required: true },
+        }, required: true },
         notes: { type: String },
     },
     {
