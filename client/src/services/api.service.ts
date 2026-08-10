@@ -1,6 +1,14 @@
 // token will stored in local storage (for now)
 export const api = async (endpoint: string, body?: any) => {
-    const token = JSON.parse(localStorage.getItem('token') ?? '')?.accessToken
+    const tokenData = localStorage.getItem('token')
+    if (!tokenData) {
+        return {
+                status: 401,
+                message: 'No access token found',
+                error: 'Unauthorized',
+            }
+    }
+    const token = JSON.parse(tokenData)?.accessToken
     const method = body ? 'POST' : 'GET'
     const response = await fetch(`${import.meta.env.VITE_API_URL}/${endpoint}`, {
         method,

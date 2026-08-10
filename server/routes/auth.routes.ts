@@ -45,7 +45,7 @@ router.post(ROUTES.register, async (req: Request, res: Response) => {
 
         return res.status(201).json({
             message: 'Registration successful!',
-            accessToken: JSON.stringify(token),
+            accessToken: token,
             user: {
                 ...newUser,
                 password: undefined // do not share password in localstorage

@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react"
 import { IUser } from "../../../server/models/user.model"
 import { api } from "@/services/api.service"
 import ROUTES from "@/ROUTES"
+import { useNavigate } from "react-router"
 
 const getLocalUser = () => {
     const cache = localStorage.getItem('cachedUser')
@@ -13,7 +14,7 @@ const getLocalUser = () => {
 
 const initialValues = {
     user: getLocalUser(),
-    getUser: () => {},
+    getUser: async () => {},
     clearUser: () => {},
     status: ''
 }
@@ -21,20 +22,22 @@ const initialValues = {
 const AuthContext = createContext(initialValues)
 
 const AuthProvider = ({ children } : { children: React.ReactNode }) => {
+    const navigate = useNavigate()
     const [user, setUser] = useState<IUser | null>(initialValues.user)
     const [status, setStatus] = useState<string>(initialValues.status)
 
     const getUser = async () => {
         const res = await api(ROUTES.auth.check)
 
-        if (res.status === 400) {
-            clearUser()
+        if ([400, 401].includes(res.status)) {
+            navigate('/logout')
         }
         
         if (res.status === 200) {
             setUser(res?.data)
             setStatus('authorized')
             localStorage.setItem('cachedUser', JSON.stringify(res.data))
+            return res.data
         }
 
         return null
