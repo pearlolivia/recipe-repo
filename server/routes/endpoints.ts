@@ -2,7 +2,8 @@ const endpoints = {
     app: {
         example: '/example',
         user: '/user',
-        recipe: '/recipe'
+        recipe: '/recipe',
+        category: '/category',
     },
     auth: {
         register: '/register',

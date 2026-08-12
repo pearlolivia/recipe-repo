@@ -3,7 +3,7 @@ import { IconUser } from "@tabler/icons-react"
 import { Link } from "@/layouts/helpers"
 
 const HorizontalHeader = ({links, logo}: {links: Link[]; logo: string}) => (
-    <div className="hidden md:flex sticky top-0 p-4 border-b">
+    <div className="bg-white hidden md:flex sticky top-0 p-4 border-b">
         <img
             src={logo}
             alt={logo}

@@ -3,6 +3,7 @@ import { ENDPOINTS } from './endpoints'
 import Blog from '../models/example.model'
 import BaseRouter from './baseRoute'
 import Recipe from '../models/recipe.model'
+import Category from '../models/category.model'
 
 const router = Router()
 const ROUTES = ENDPOINTS.app
@@ -24,6 +25,11 @@ BaseRouter(router, {
     route: ROUTES.recipe,
     model: Recipe,
     populate: ['categories'],
+})
+
+BaseRouter(router, {
+    route: ROUTES.category,
+    model: Category
 })
 
 export default router
