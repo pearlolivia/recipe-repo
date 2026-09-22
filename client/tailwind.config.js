@@ -23,7 +23,7 @@ export default {
           '950': '#20240f',
         },
         wine: {
-          DEFAULT: '#582b36',
+          DEFAULT: '#7b3949',
           '50': '#faf5f7',
           '100': '#f7ecf1',
           '200': '#f0dae3',

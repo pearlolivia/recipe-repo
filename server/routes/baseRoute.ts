@@ -13,8 +13,19 @@ interface RouterConfig {
     userField?: string
 }
 
-const return500Error = (res: Response, e: any) => {
-    return res.status(500).json({ error: e })
+export const return500Error = (res: Response, e: any) => {
+    return res.status(500).json({ error: e?.message ?? 'Request failed.' })
+}
+
+export function pick<T extends object>(data: T, fields: string[]) {
+    const pickedFields: { [key: string]: any } = {}
+    for (const field of fields) {
+        if (data && Object.prototype.hasOwnProperty.call(data, field)) {
+            pickedFields[field] = (data as { [key: string]: any })[field]
+        }
+    }
+
+    return pickedFields
 }
 
 const BaseRouter = (router: Router, config: RouterConfig) => {

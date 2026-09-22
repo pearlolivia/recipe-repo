@@ -15,7 +15,7 @@ const stepSchema = new Schema<IStep>(
     {
         recipe: { type: Schema.Types.ObjectId, ref: 'Recipe', required: true },
         instruction: { type: String, required: true },
-        ingredients: [{ type: String, required: true }],
+        ingredients: [{ type: String }],
         order: { type: Number, required: true, default: 0 },
     },
     {

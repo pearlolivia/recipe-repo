@@ -29,7 +29,7 @@ function Form<FormValuesType>({ endpoint, id, children, postSubmit, options, cla
 
     const handleSubmit = async (values?: FormValuesType) => {
         setError(null)
-        const postData = values ?? formValues
+        const postData = {...(values ?? formValues), _id: id }
         let response
         if (options?.noAuth) {
             response = await api_no_auth(endpoint, { ...postData })
@@ -53,7 +53,7 @@ function Form<FormValuesType>({ endpoint, id, children, postSubmit, options, cla
 
     // handle update of form values via various input fields
     return (
-        <div className={`bg-white p-5 rounded-xl border flex flex-col space-y-4 ${className}`}>
+        <div className={`bg-white p-5 rounded-xl flex flex-col space-y-4 ${className}`}>
             {children(formControl, { formValues, setFormValues, submit: (values: FormValuesType) => handleSubmit(values)})}
             <div className="ml-auto flex items-center gap-2">
                 {error && (<span className="text-amber-500 flex-wrap">{error}</span>)}

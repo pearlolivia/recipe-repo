@@ -3,13 +3,12 @@ import { ICategory } from './category.model'
 
 export interface IRecipe {
     _id: string
+    name: string
     categories: ICategory[]
-    caloriesPerPerson: number
+    caloriesPerPerson?: number
     servings: number
-    time: { // minutes
-        prep: number
-        cook: number
-    }
+    prepTime?: number // minutes
+    cookTime?: number // minutes
     notes?: string
     createdAt: Date
     updatedAt: Date
@@ -17,13 +16,12 @@ export interface IRecipe {
 
 const recipeSchema = new Schema<IRecipe>(
     {
+        name: { type: String, required: true },
         categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-        caloriesPerPerson: { type: Number, required: true },
+        caloriesPerPerson: { type: Number },
         servings: { type: Number, required: true },
-        time: { type: {
-            prep: { type: Number, required: true },
-            cook: { type: Number, required: true },
-        }, required: true },
+        prepTime: { type: Number },
+        cookTime: { type: Number },
         notes: { type: String },
     },
     {

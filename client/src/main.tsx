@@ -9,9 +9,10 @@ import { AuthWrapper } from './services/wrappers.tsx'
 import { AuthProvider } from './hooks/useAuth.tsx'
 import Logout from './components/Pages/Auth/Logout.tsx'
 import Login from './components/Pages/Auth/Login.tsx'
-import RecipeForm from './components/Pages/Forms/RecipeForm.tsx'
 
-const App = lazy(() => import('./App.tsx'))
+const Dashboard = lazy(() => import('./components/Pages/Home/Dashboard.tsx'))
+const RecipeForm = lazy(() => import('./components/Pages/Forms/RecipeForm.tsx'))
+
 const LayoutWrapper = lazy(() => import('@/layouts/Wrapper'))
 const NotFoundPage = lazy(() => import('@/components/Pages/NotFound'))
 
@@ -34,7 +35,7 @@ root.render(
                 {/* App */}
                 <Route element={<AuthWrapper />}>
                   <Route path='/' element={<LayoutWrapper layout='app' />}>
-                    <Route index element={<App />} />
+                    <Route index element={<Dashboard />} />
                     <Route path='recipe/:id' element={<RecipeForm />} />
                   </Route>
                   </Route>

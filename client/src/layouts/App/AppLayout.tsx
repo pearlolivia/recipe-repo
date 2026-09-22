@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { IconHome, IconBowlSpoon } from '@tabler/icons-react'
+import { IconHome, IconBowlSpoon, IconLogout } from '@tabler/icons-react'
 
 import logo from '@/assets/react.svg'
 
@@ -9,6 +9,7 @@ import { Link } from '@/layouts/helpers'
 const APP_LINKS: Link[] = [
     { text: 'Dashboard', link: '/', icon: IconHome },
     { text: 'New Recipe', link: '/recipe/new', icon: IconBowlSpoon },
+    { text: 'Logout', link: '/logout', icon: IconLogout },
 ]
 
 
@@ -18,7 +19,7 @@ const AppLayout = ({children, mainClass}: {children: ReactNode; mainClass?: stri
             logo={logo}
             links={APP_LINKS}
         />
-        <main className={`flex flex-col items-center flex-1 w-full h-screen justify-self-center py-4 md:py-8 px-8 md:px-20 ${mainClass ?? ''}`}>
+        <main className={`flex flex-col flex-1 w-full h-screen justify-self-center py-4 md:py-8 px-8 md:px-20 ${mainClass ?? ''}`}>
             {children}
         </main>
     </div>
