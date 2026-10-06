@@ -1,13 +1,13 @@
 import { model, Schema } from 'mongoose'
 
-export interface ICategory {
+export interface ITag {
     _id: string
     name: string
     createdAt: Date
     updatedAt: Date
 }
 
-const categorySchema = new Schema<ICategory>(
+const TagSchema = new Schema<ITag>(
     {
         name: { type: String, required: true },
     },
@@ -16,6 +16,6 @@ const categorySchema = new Schema<ICategory>(
     }
 )
 
-const Category = model<ICategory>('Category', categorySchema)
+const Tag = model<ITag>('Tag', TagSchema)
 
-export default Category
+export default Tag

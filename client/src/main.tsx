@@ -2,13 +2,17 @@ import { lazy, Suspense, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { ToastContainer } from 'react-toastify'
-import Loading from '@/components/Molecules/Loading'
-import './index.css'
-import Register from './components/Pages/Auth/Register.tsx'
+
 import { AuthWrapper } from './services/wrappers.tsx'
 import { AuthProvider } from './hooks/useAuth.tsx'
+
+import Loading from '@/components/Molecules/Loading'
+
+import Register from './components/Pages/Auth/Register.tsx'
 import Logout from './components/Pages/Auth/Logout.tsx'
 import Login from './components/Pages/Auth/Login.tsx'
+
+import './index.css'
 
 const Dashboard = lazy(() => import('./components/Pages/Home/Dashboard.tsx'))
 const RecipeForm = lazy(() => import('./components/Pages/Forms/RecipeForm.tsx'))

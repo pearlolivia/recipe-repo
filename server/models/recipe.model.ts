@@ -1,10 +1,9 @@
 import { model, Schema } from 'mongoose'
-import { ICategory } from './category.model'
 
 export interface IRecipe {
     _id: string
     name: string
-    categories: ICategory[]
+    tags: string[]
     caloriesPerPerson?: number
     servings: number
     prepTime?: number // minutes
@@ -17,7 +16,7 @@ export interface IRecipe {
 const recipeSchema = new Schema<IRecipe>(
     {
         name: { type: String, required: true },
-        categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+        tags: [{ type: String }],
         caloriesPerPerson: { type: Number },
         servings: { type: Number, required: true },
         prepTime: { type: Number },

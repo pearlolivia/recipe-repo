@@ -37,7 +37,7 @@ const RecipeCard = ({ recipe }: { recipe: IRecipe }) => {
         const rndmIdx = Math.floor(Math.random() * max)
         return ICONS?.[rndmIdx] ?? IconSoup
     }, [])
-console.log(recipe)
+
     return (
         <Link to={`/view-recipe/${recipe._id}`}>
             <div className="cursor-pointer hover:scale-105 bg-brand-300 p-5 rounded-xl border flex items-center gap-4">
@@ -46,12 +46,22 @@ console.log(recipe)
                 </section>
 
                 <section className="space-y-2 w-full">
-                    <p className="text-wine-900 font-semibold text-lg">{recipe.name}</p>
+                    <div className="flex items-center gap-2 justify-between">
+                        <p className="text-wine-900 font-semibold text-lg">{recipe.name}</p>
+                        {recipe?.tags?.length > 0 && (
+                            <div className="flex items-center gap-1 max-w-1/2 flex-wrap">
+                                {recipe.tags.map((tag) => (
+                                    <span className="rounded-full bg-slate-200 px-2 py-1 text-sm text-neutral-700">{tag}</span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                     <div className="flex items-center gap-5 justify-between w-full">
                         <div className="flex items-center gap-5 text-neutral-900">
                             {recipe?.prepTime && recipe?.cookTime && (<div className="flex items-center gap-2"><IconClock /> <span>{totalTime} minutes</span></div>)}
                             {recipe?.caloriesPerPerson && (<div className="flex items-center gap-2"><IconFlame /> <span>~{recipe?.caloriesPerPerson} kcal</span></div>)}
                         </div>
+                        
                         {recipe?.createdAt && (<div className="text-neutral-900 text-sm">Added {formatDistanceToNow(recipe.createdAt, { addSuffix: true })}</div>)}
                     </div>
                 </section>

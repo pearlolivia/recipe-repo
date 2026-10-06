@@ -6,7 +6,8 @@ export enum IngredientType {
     Vegetable = 'vegetable',
     Fruit = 'fruit',
     Fats = 'fats',
-    Dairy = 'dairy'
+    Dairy = 'dairy',
+    Other = 'other'
 }
 
 export interface IIngredient {

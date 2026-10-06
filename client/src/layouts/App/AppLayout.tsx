@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { IconHome, IconBowlSpoon, IconLogout } from '@tabler/icons-react'
+import { IconHome, IconBowlSpoon, IconLogout, IconUser } from '@tabler/icons-react'
 
 import logo from '@/assets/react.svg'
 
@@ -8,6 +8,7 @@ import { Link } from '@/layouts/helpers'
 
 const APP_LINKS: Link[] = [
     { text: 'Dashboard', link: '/', icon: IconHome },
+    { text: 'My Recipes', link: '/my-recipes', icon: IconUser },
     { text: 'New Recipe', link: '/recipe/new', icon: IconBowlSpoon },
     { text: 'Logout', link: '/logout', icon: IconLogout },
 ]

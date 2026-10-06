@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router"
 import { Button } from "@/components/Molecules"
 import { useMemo } from "react"
 import SelectField from "@/components/Form/SelectField"
+import { IconTrash } from "@tabler/icons-react"
 
 const RecipeForm = ({ id }: { id?: string }) => {
     const navigate = useNavigate()
@@ -62,13 +63,41 @@ const RecipeForm = ({ id }: { id?: string }) => {
         })
     }
 
+    const handleTagsChange = (
+        formValues: { [key: string]: any },
+        setFormValues: (v: { [key: string]: any }) => void,
+        index: number,
+        newValue: any
+    ) => {
+        const newTags = [...(formValues?.tags ?? [])]
+        newTags[index] = newValue
+        return setFormValues({
+            ...formValues,
+            tags: newTags
+        })
+    }
+
+    const deleteItem = (
+        formValues: { [key: string]: any },
+        setFormValues: (v: { [key: string]: any }) => void,
+        field: string,
+        index: number
+    ) => {
+        const currentItems = [...(formValues?.[field] ?? [])]
+        currentItems?.splice(index, 1)
+        setFormValues({
+            ...formValues,
+            [field]: currentItems
+        })
+    }
+
     return (
         <div className='space-y-6 flex-col flex w-full'>
             <h1>{isNew ? 'New' : 'Edit'} Recipe</h1>
-            <Form<IRecipe & { ingredients: Partial<IIngredient & IRecipeIngredient>[]; steps: Partial<IStep>[] }>
+            <Form<IRecipe & { ingredients: Partial<IIngredient & IRecipeIngredient>[]; steps: Partial<IStep>[]; tags: string[] }>
                 endpoint={ROUTES.app.recipe}
                 id={recipeId}
-                className="p-8"
+                className="!p-0"
                 submitText="Create Recipe"
                 postSubmit={() => {
                     navigate('/')
@@ -88,11 +117,11 @@ const RecipeForm = ({ id }: { id?: string }) => {
                             </div>
                         </section>
 
-                        <section className="space-y-5 border rounded-xl p-5">
+                        <section className="space-y-5 rounded-xl p-5 bg-brand-200">
                             <h2>Ingredients</h2>
                             <div className="space-y-5">
                                 {formValues?.ingredients?.map((ingredient: Partial<IIngredient>, index: number) => (
-                                    <div className="space-y-3  bg-brand-100 p-3 rounded-xl">
+                                    <div className="flex items-center gap-2 justify-between border border-neutral-500/50 space-y-3 p-3 rounded-xl">
                                         <div className="flex items-center gap-5">
                                             <span className="text-xl mt-5">{index + 1}. </span>
                                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -127,25 +156,10 @@ const RecipeForm = ({ id }: { id?: string }) => {
                                                 />
                                             </div>
                                         </div>
-                                        <Field
-                                            field="description"
-                                            label="Nutrition Information?"
-                                            formValues={ingredient}
-                                            onChange={(v) => {
-                                                const newIngredients = [...(formValues?.ingredients ?? [])]
-                                                newIngredients[index] = {
-                                                    ...ingredient,
-                                                    description: v
-                                                }
-                                                return setFormValues({
-                                                    ...formValues,
-                                                    ingredients: newIngredients
-                                                })
-                                            }}
-                                            type="textarea"
-                                            containerClass="pl-8"
-                                            inputClass="h-24 md:w-80"
-                                        />
+                                        
+                                        <button className="p-1 rounded-xl hover:bg-red-100 hover:text-red-500 cursor-pointer" onClick={() => deleteItem(formValues, setFormValues, 'ingredients', index)}>
+                                            <IconTrash className="w-5 flex-none" />
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -159,11 +173,11 @@ const RecipeForm = ({ id }: { id?: string }) => {
                             }}>+ New Ingredient</Button.Secondary>
                         </section>
 
-                        <section className="space-y-5 border rounded-xl p-5">
+                        <section className="space-y-5 bg-wine-300 rounded-xl p-5">
                             <h2>Method</h2>
                             <div className="space-y-5">
                                 {formValues?.steps?.map((ingredient: Partial<IStep>, index: number) => (
-                                    <div className="space-y-3 bg-wine-400 p-3 rounded-xl">
+                                    <div className="flex items-center gap-2 justify-between border border-neutral-500/50 space-y-3  p-3 rounded-xl">
                                         <div className="flex items-center gap-5">
                                             <span className="text-xl mt-5">{index + 1}. </span>
                                             <div className="grid md:grid-cols-2 gap-5">
@@ -178,6 +192,10 @@ const RecipeForm = ({ id }: { id?: string }) => {
                                                 {/* <SelectField field="ingredient" label="Ingredients" options={formValues?.ingredients?.map((ing: Partial<IIngredient>, i: number) => ({ value: i, label: ing.name}))} onChange={(v) => handleStepsChange(formValues, setFormValues, index, v?.value ?? '', 'ingredients')} isMulti inputClass="!w-full" /> */}
                                             </div>
                                         </div>
+
+                                        <button className="p-1 rounded-xl hover:bg-red-100 hover:text-red-500 cursor-pointer" onClick={() => deleteItem(formValues, setFormValues, 'steps', index)}>
+                                            <IconTrash className="w-5 flex-none" />
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -189,6 +207,40 @@ const RecipeForm = ({ id }: { id?: string }) => {
                                     steps: [...(formValues?.steps ?? []), {}]
                                 })
                             }}>+ New Step</Button.Secondary>
+                        </section>
+
+                        <section className="space-y-5 border rounded-xl p-5 bg-slate-200">
+                            <h2>Tags</h2>
+                            <div className="space-y-5">
+                                {formValues?.tags?.map((tag: string, index: number) => (
+                                    <div className="flex items-center gap-2 justify-between space-y-3 border border-neutral-500/50 p-3 rounded-xl">
+                                        <div className="flex items-center gap-5">
+                                            <span className="text-xl">{index + 1}. </span>
+                                            <div className="grid md:grid-cols-2 gap-5">
+                                                <Field
+                                                    field="tag"
+                                                    formValues={tag}
+                                                    onChange={(v) => handleTagsChange(formValues, setFormValues, index, v, 'tag')}
+                                                    type="text"
+                                                    label=""
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <button className="p-1 rounded-xl hover:bg-red-100 hover:text-red-500 cursor-pointer" onClick={() => deleteItem(formValues, setFormValues, 'tags', index)}>
+                                            <IconTrash className="w-5 flex-none" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            <Button.Secondary
+                            className="mb-0.5 bg-slate-200 hover:bg-slate-300"
+                            onClick={() => {
+                                setFormValues({
+                                    ...formValues,
+                                    tags: [...(formValues?.tags ?? []), {}]
+                                })
+                            }}>+ New Tag</Button.Secondary>
                         </section>
                     </div>
                 )}

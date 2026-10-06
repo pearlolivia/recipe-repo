@@ -3,7 +3,7 @@ const endpoints = {
         example: '/example',
         user: '/user',
         recipe: '/recipe',
-        category: '/category',
+        tag: '/tag',
     },
     auth: {
         register: '/register',

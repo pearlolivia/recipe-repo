@@ -3,7 +3,7 @@ import { ENDPOINTS } from './endpoints'
 import Blog from '../models/example.model'
 import BaseRouter, { pick, return500Error } from './baseRoute'
 import Recipe from '../models/recipe.model'
-import Category from '../models/category.model'
+import Tag from '../models/tag.model'
 import Ingredient, { IIngredient } from '../models/ingredient.model'
 import RecipeIngredient, { IRecipeIngredient } from '../models/recipeIngredient.model'
 import Step, { IStep } from '../models/step.model'
@@ -26,7 +26,7 @@ router.get(ROUTES.example, async (req: Request, res: Response) => {
 
 router.post(ROUTES.recipe, async (req: Request, res: Response) => {
     try {
-        const recipeProperties = pick(req.body, ['name', 'servings', 'caloriesPerPerson', 'cookTime', 'prepTime', 'notes'])
+        const recipeProperties = pick(req.body, ['name', 'servings', 'caloriesPerPerson', 'cookTime', 'prepTime', 'notes', 'tags'])
         let recipe
         if (!req.body._id || req.body._id === 'new') {
             recipe = await new Recipe({ ...recipeProperties, _id: undefined }).save()
@@ -42,9 +42,16 @@ router.post(ROUTES.recipe, async (req: Request, res: Response) => {
                 const recipeIngProperties = pick(ingredient, ['quantity', 'prep'])
                 await new RecipeIngredient({ ...recipeIngProperties, recipe: recipe?._id, ingredient: newIngredient._id }).save()
             }))
+
             // add recipe steps
             await Promise.allSettled(req.body?.steps?.map(async (step: Partial<IStep>, index: number) => {
                 await new Step({ recipe: recipe?._id, instruction: step.instruction, order: index }).save()
+            }))
+
+            // add tags
+            await Promise.allSettled(req.body?.tags?.map(async (tag: string) => {
+                const normalisedTag = tag.toLowerCase()
+                await Tag.findOneAndUpdate({ name: normalisedTag }, { name: normalisedTag }, { new: true, upsert: true })
             }))
         }
 
@@ -83,8 +90,8 @@ BaseRouter(router, {
 })
 
 BaseRouter(router, {
-    route: ROUTES.category,
-    model: Category,
+    route: ROUTES.tag,
+    model: Tag,
     excludedRoutes: ['post', 'delete']
 })
 
